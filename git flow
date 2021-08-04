@@ -1,0 +1,144 @@
+#feature branch
+git checkout develeop
+git checkout -b feature/kinesis-integration
+
+
+#merge conflict durumunda rebase
+git checkout feature/kinesis-integration
+git rebase origin/develop
+
+#conflict cozmek icin
+git mergetool
+gir add conflicte=sebep=olan=dosya
+git rebase
+#continue
+
+
+#manuel merge 
+git checkout develop
+git merge --of-ff myfeature
+git branch -d myfeature
+git push origin develop
+
+#release branch
+git checkout develop
+git pull 
+git checkout -b release/1.2.0 develop
+1.2.0-RC #pom/xl`den versiyon guncellenir -------
+git commot -a -m `Bumb version 1.2.0-RC`
+g't checkout develop
+ #release branch olu;turulduktan sonra develop branch
+ bir sonraki surum icin snapshot alir
+git commit -a -m bumb ver'on to 1.3.0-SNAPSHOT`
+
+#releafix branchinde gerekli duzeltmeler yapilir
+#tekrar release branch`e pull request ac
+
+git checkout -b releafix/kinesis-queue-name-fix/1.2.0
+gitt add file=names
+git commit -m `fix kinesis name`
+
+#releafix onay aldiktan sonra release ve develop branch`e merge edilir
+git checkout develop
+git merge --no-ff releafix/kinesus queue-name-fix
+git checkout release
+git merge --no-f releafix/kinesis-queue-name-fix
+
+#testler b'tt'/ master ve develeop merge edilir
+git chechout master
+git master --no-ff release/1.2.0
+#pom/cml`den version g]ncellenir/ 1.2.0 ------sor
+git commit -a -m `bumb version to 1.2.0`
+#release@e referans olmasi '.'n tag ac
+git tag -a 1.2.0
+
+
+#tekrar develop branch`e merge et cunku hatalar release`de duzeltilir 
+#ve duzeltmelerin developa tasinmasi gerekir
+
+git checkout develop
+git merge --no-ff-release/1.2.0
+#pom/xml`den version guncellenir/ 1/3/0- SNAPSHOT
+git commit -a -m `set version to 1.3.0=SNAPSHOT`
+
+#release branch`e ihtiyac kalmadi sil
+
+git branch -d release
+
+
+
+
+#HOTFIX BRANCH
+git chechout -b hotfix/1.2.1 master
+#pom.xml@den version guncellenir. 1.2.1
+git commit -a -m `set version to 1.2.1`
+git commit -m `production hatasi duzeltildi`
+
+
+
+#degisiklikler bitti test ok sonra master`a merge etmek icin
+git checkout master
+git merge --no-f hotfix/1.2.1
+git tag -a 1.2.1
+
+
+#yeni bir release yaptik o yuzden tag olustur/ develop`a merge edilir
+
+git checkout develop
+git merge --no-f hotfix/1.2.1
+
+#pom.xml`de conflict olacak, verionu SNAPSHOT olarak birak
+
+git commot -am `fix version conflict`
+git merge --no-f hotfix/1.2.1
+
+
+#mevcut bur release branch varsa oraya da merge etmeliyiz
+
+git checkout release/1.3.0
+git merge --no-f hotfix 1.2.1
+
+#pom.xml`de conflict olarak, RC birakiyoruz
+git commit -am `fix verion conflict`
+git merge --no-f hotfix/1.2.1
+
+#hotfix branch sil, tag ac
+
+git branch -d hotfix/1.2.2
+git push origin develop:develop
+git push origin master:master
+git push origin release/1.3.0:release/1.3.0
+git push --tags
+
+git checkout -b feature/my-feature
+
+#gelistirme yaptiktan sonra
+git commit -a -m `commit 1`
+
+#pull request review asamasinda iken yorumlar uzerinde degisiklik
+
+git commit -a -m `commmit 2` #yorum1 sonrasida yeni commit
+
+git commit -a -m `commmit 3` #yorum2 sonrasida yeni commit
+
+
+#branch merge icin hazirsa tek commit altinda toplammak icin
+
+
+git rebase -i HEAD~3
+ #bu komut ile commitler list halinde gelecek
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
